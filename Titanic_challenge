@@ -147,3 +147,60 @@ print(confusion_matrix(target_valid, predicted_valid))
 predictions = best_model.predict(X_test) #using best model to predict
 -----------------------------------------------------------------------------------------------
 Your submission scored 0.76555, which is not an improvement of your best score. Keep trying
+---------------------------------------------------------------------
+
+Attempt03:
+#from the 1st two attempts we can see that our model becomes over-trained at depth=12,
+# so let us limit this parameter
+for depth in range(1, 8, 1):
+    model = GradientBoostingClassifier(max_depth=depth, n_estimators = 100, random_state=1234)
+    model.fit(features_train, target_train)
+    predicted_valid = model.predict(features_valid)
+    print("max_depth =", depth,  ": ", end='')
+    print("F1 for GradientBoostingClassifier after up-sampling:", end='')
+    print("F1:", f1_score(target_valid, predicted_valid))
+    print('Area under curve for ROC: ', end='')
+    probabilities_valid = model.predict_proba(features_valid)
+    probabilities_one_valid = probabilities_valid[:, 1]
+    auc_roc = roc_auc_score(target_valid,probabilities_one_valid)
+    print(auc_roc)
+    
+max_depth = 1 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.7184466019417476
+Area under curve for ROC: 0.8286401098901098
+max_depth = 2 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.6774193548387096
+Area under curve for ROC: 0.8266082875457875
+max_depth = 3 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.6910994764397905
+Area under curve for ROC: 0.8357371794871795
+max_depth = 4 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.71
+Area under curve for ROC: 0.8484146062271063
+max_depth = 5 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.7093596059113301
+Area under curve for ROC: 0.8276098901098901
+max_depth = 6 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.6889952153110048
+Area under curve for ROC: 0.822687728937729
+max_depth = 7 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.6919431279620853
+Area under curve for ROC: 0.814417353479853
+
+
+max_depth = 4 : F1 for GradientBoostingClassifier after up-sampling:F1: 0.71 Area under curve for ROC: 0.8484146062271063
+
+#
+model = GradientBoostingClassifier(n_estimators=100, max_depth=4, random_state=1)
+
+model.fit(X, y)
+predictions = model.predict(X_test) #using best model to predict
+
+output = pd.DataFrame({'PassengerId': test_data.PassengerId, 'Survived': predictions})
+output.to_csv('my_submission.csv', index=False)
+print("Your submission was successfully saved!")
+
+-------------------------------------------
+our submission scored 0.75598, which is not an improvement of your best score. Keep trying!
+
+Gradient boosting is no good for me, will try other methods
+
+Attempt 4
+model = RandomForestClassifier(n_estimators=100, max_depth=4, random_state=1234)
+Your submission scored 0.76076, which is not an improvement of your best score. Keep trying!
+
+
+
