@@ -130,7 +130,20 @@ predictions = model.predict(X_test)
 output = pd.DataFrame({'PassengerId': test_data.PassengerId, 'Survived': predictions})
 output.to_csv('my_submission.csv', index=False)
 print("Your submission was successfully saved!")
+--------------------------------------------------------------------------------------------
+Your submission scored 0.77033, which is not an improvement of your best score. Keep trying!
+--------------------------------------------------------------------------------------------
 
+Attempt02
+Training model with best parameters in the same reduced features_train, target_train
 
+best_model = RandomForestClassifier(max_depth=12, n_estimators = 100, random_state=1234)
+best_model.fit(features_train, target_train)
+predicted_valid = best_model.predict(features_valid)
 
+print('Confusion matrix:')
+print(confusion_matrix(target_valid, predicted_valid))
 
+predictions = best_model.predict(X_test) #using best model to predict
+-----------------------------------------------------------------------------------------------
+Your submission scored 0.76555, which is not an improvement of your best score. Keep trying
