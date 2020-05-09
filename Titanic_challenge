@@ -202,5 +202,10 @@ Attempt 4
 model = RandomForestClassifier(n_estimators=100, max_depth=4, random_state=1234)
 Your submission scored 0.76076, which is not an improvement of your best score. Keep trying!
 
+Attempt 4
 
+was the same RandomForestClassifier(n_estimators=100, max_depth=4, random_state=1234) but without age
+Your submission scored 0.77511, which is not an improvement of your best score. Keep trying!
+
+So ages do not improve forecast
 
