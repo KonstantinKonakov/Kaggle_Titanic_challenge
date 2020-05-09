@@ -209,3 +209,89 @@ Your submission scored 0.77511, which is not an improvement of your best score. 
 
 So ages do not improve forecast
 
+---------------------------------------------------------------------------
+
+Than we have studied the history of rescue and outcomes for different groups
+
+
+train_data['Age'] = train_data['Age'].fillna(train_data['Age'].mean()) # filling gaps in age by mean value
+
+# our prvious iteration showed that 'straightforward' application of age is not helping
+
+# let us add child feature for children of age less than 15. 
+# We know from history that childred and woman with children of the 1st-2nd class
+# were invited  first to boats
+
+
+ch=0 #setting counter of children to 0
+
+for i in range(len(train_data['Age'])):
+    if train_data.loc[i,'Age']<15:
+        train_data.loc[i,'Child'] = 1.
+        ch +=1
+    else:
+        train_data.loc[i,'Child'] = 0.
+
+print('Number of children:', ch)
+
+# probability to survive fo different ports/class and gender
+pd.pivot_table(train_data, values='Survived', index=['Pclass', 'Sex'],columns=['Embarked'], aggfunc=np.mean)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set()
+# Draw a heatmap with the numeric values in each cell
+f, ax = plt.subplots(figsize=(9, 6))
+surv = pd.pivot_table(train_data, values='Survived', index=['Pclass', 'Sex'],columns=['Embarked'], aggfunc=np.mean)
+sns.heatmap(surv, annot=True, linewidths=.5, ax=ax);
+
+We can see that almost all women of the 1st-2nd classes survived. For the third class situation varies depending on poart of boarding. That means all these 3 parameters are valuable for the training. (different ports/class and gender)
+
+
+
+
+
+
+Exact number of siblings/parents is not meaningfull info. They first saved lonely women or woman with children. Let us make generalization :
+
+
+
+
+
+
+# make it boolean
+for i in range(len(train_data['Parch'])):
+    if train_data.loc[i,'Parch'] !=0:
+        train_data.loc[i,'Parch'] = train_data.loc[i,'Parch'] / train_data.loc[i,'Parch']
+    if train_data.loc[i,'SibSp'] !=0:
+        train_data.loc[i,'SibSp'] = train_data.loc[i,'SibSp'] / train_data.loc[i,'SibSp']
+        
+# Draw a heatmap with chances to survive for childred and spose/children relationship
+f, ax = plt.subplots(figsize=(9, 6))
+surv = pd.pivot_table(train_data, values='Survived', index=['Parch', 'SibSp'],columns=['Child'], aggfunc=np.mean)
+sns.heatmap(surv, annot=True, linewidths=.5, ax=ax);        
+
+
+Adding 3 set rescue category men/woman/child - 'Res_category'
+
+
+
+
+
+for i in range(len(train_data['Child'])):
+    if train_data.loc[i,'Child'] ==1:
+        train_data.loc[i,'Res_category'] = 'child'
+        
+    elif train_data.loc[i,'Sex'] == 'male':
+        train_data.loc[i,'Res_category'] = 'male'
+    
+    elif train_data.loc[i,'Sex'] == 'female':
+        train_data.loc[i,'Res_category'] = 'female'
+
+# selecting features
+features = ["Pclass","Res_category", "SibSp", "Parch","Embarked"]
+
+
+
+
+
