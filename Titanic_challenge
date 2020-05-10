@@ -318,3 +318,25 @@ PassengerId	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked	Child	Res
 249	1141	3	Khalil, Mrs. Betros (Zahie Maria" Elias)"	female	NaN	1.0	0.0	2660	14.4542	NaN	C	0.0	female
 339	1231	3	Betros, Master. Seman	male	NaN	0.0	0.0	2622	7.2292	NaN	C	1.0	child
 
+train_data['Age'] = train_data['Age'].fillna(-1) #filling with indicative
+# Age_void may mean other social profile or difficulties to speak english (and to understand/follow rescue orders)
+av=0 #setting counter of children to 0
+
+for i in range(len(train_data['Name'])):
+      
+    if ((train_data.loc[i,'Age']== -1)):
+        train_data.loc[i,'Age_void'] = 1.
+        av +=1
+    else:
+        train_data.loc[i,'Age_void'] = 0.
+    
+
+print('Number of Age_void:', av)
+
+train_data.query('(Age_void == 1) and (Child == 0)')
+
+
+
+
+
+
