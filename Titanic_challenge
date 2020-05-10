@@ -292,6 +292,29 @@ for i in range(len(train_data['Child'])):
 features = ["Pclass","Res_category", "SibSp", "Parch","Embarked"]
 
 
+2020-05-10 Day03
+children_treshhold = 14. # set child/nochild limit
+for i in range(len(train_data['Name'])): #remove older than children_trashhold
+    if ((train_data.loc[i,'Age']>children_treshhold)&(train_data.loc[i,'Child'] == 1)):
+        train_data.loc[i,'Child'] = 0.
+        ch -=1
+print('Number of children:', ch)
+
+for i in range(len(predictions)):
+    if (predictions[i] == 1)&(test_data.loc[i,'Child']==1):
+        print("Cild. surviver # ",i, test_data.loc[i,:])
+        
+test_data.query('(PassengerId == 897) | (PassengerId == 1122)') # survived in RL
+PassengerId	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked	Child	Res_category
+5	897	3	Svensson, Mr. Johan Cervin	male	14.0	0.0	0.0	7538	9.225	NaN	S	0.0	male
+230	1122	2	Sweet, Mr. George Frederick	male	14.0	0.0	0.0	220845	65.000	NaN	S	0.0	male
 
 
+
+
+
+test_data.query('(PassengerId == 1141) | (PassengerId == 1231)') # died in RL :(
+PassengerId	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked	Child	Res_category
+249	1141	3	Khalil, Mrs. Betros (Zahie Maria" Elias)"	female	NaN	1.0	0.0	2660	14.4542	NaN	C	0.0	female
+339	1231	3	Betros, Master. Seman	male	NaN	0.0	0.0	2622	7.2292	NaN	C	1.0	child
 
