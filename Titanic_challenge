@@ -336,7 +336,31 @@ print('Number of Age_void:', av)
 train_data.query('(Age_void == 1) and (Child == 0)')
 
 
+2020-05-11 0.79425 was the best result of the previous day
 
+let us start to reduce dimensions now and adding polinomial features
+instead of Pclass and Res category/Sex intoducina Crew_invites_to_boat feature:
+1) everyone have chance to be invited to the boat = 1.
+2) 1st class have the maximum chance, 3rd is the lowest *(4 - Pclass)
+3) Children had the highest chance *3/than females *2/than males *1
+
+for i in range(len(test_data['Res_category'])):
+    if test_data.loc[i,'Res_category'] =='child':
+        test_data.loc[i,'Crew_invites_to_boat'] = 3 * (4-test_data.loc[i,'Pclass'])
+        
+    elif test_data.loc[i,'Res_category'] =='female':
+        test_data.loc[i,'Crew_invites_to_boat'] = 2 * (4-test_data.loc[i,'Pclass'])
+    
+    elif test_data.loc[i,'Res_category'] =='male':
+        test_data.loc[i,'Crew_invites_to_boat'] = 1 * (4-test_data.loc[i,'Pclass'])
+
+
+# selecting features
+features = ["Crew_invites_to_boat","Age_void","SibSp", "Parch","Embarked"] -  0.77033
+features = ["Pclass","Crew_invites_to_boat","Age_void","SibSp", "Parch","Embarked"]- 0.77511
+features = ["Pclass","Crew_invites_to_boat","Sex","SibSp", "Parch","Embarked"] -0.77033
+features = ["Pclass","Crew_invites_to_boat","Age_void","SibSp", "Parch","Embarked"]- 0.76555
+features = ["Pclass","Crew_invites_to_boat","Embarked"] - 0.78947 rf 5 0.78947 rf4
 
 
 
