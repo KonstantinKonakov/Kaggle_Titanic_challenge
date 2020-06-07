@@ -1,6 +1,3 @@
-# my_kaggle
-keeping log of my activity at Kaggle
-
 В данном репозитории содержится лог моей работы над проектом Titanic Challenge
 Работа выполнена на языке Python
 
